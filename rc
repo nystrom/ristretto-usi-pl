@@ -1,0 +1,2 @@
+#!/bin/sh
+sbt "run-main ristretto.main.Compiler $*"
