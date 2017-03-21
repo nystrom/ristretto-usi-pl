@@ -56,6 +56,7 @@ object Typer {
     case ExternDef(ty, x, params) =>
   }
 
+  type Name = String
   type Env = Map[Name, Type]
 
   def typeCheck(e: Stm)(env: Env): Unit = e match {

@@ -5,8 +5,6 @@ object Compiler extends Errors {
     import ristretto.frontend.RistrettoPrettyPrinter
     import ristretto.frontend.Ristretto
     import ristretto.frontend.RistrettoSyntax.{ASTNode, Root}
-    import ristretto.drip.DripPrettyPrinter
-    import ristretto.perc.PercPrettyPrinter
     import org.bitbucket.inkytonik.kiama.util.FileSource
     import java.io._
 
@@ -25,11 +23,6 @@ object Compiler extends Errors {
               case t: Root =>
                 println(RistrettoPrettyPrinter.show(t))
                 ristretto.frontend.Typer.typeCheck(t)
-                val d = ristretto.frontend.DripGen.translate(t)
-                println(d)
-                println(DripPrettyPrinter.show(d))
-                val p = ristretto.drip.PercGen.translate(d)
-                println(PercPrettyPrinter.show(p))
               case _ =>
                 println(p.formatParseError(result.parseError, true))
             }
