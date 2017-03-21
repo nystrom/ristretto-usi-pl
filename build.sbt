@@ -1,4 +1,4 @@
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.0"
 
 name := "ristretto"
 
@@ -28,9 +28,6 @@ ratsUseDefaultComments := true
 
 ratsUseDefaultWords := true
 
-libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % "test"
-// Use kiama
+libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.1"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test"
 libraryDependencies += "org.bitbucket.inkytonik.kiama" %% "kiama" % "2.0.0"
-// Logger
-libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.7"
-libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0"
