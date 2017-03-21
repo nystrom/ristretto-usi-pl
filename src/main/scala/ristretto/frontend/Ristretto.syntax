@@ -43,41 +43,37 @@ Param
   = TyTree Name
   .
 
-Exp {paren}
-  = Exp "||" Exp            {Or, left, 7}
-  | Exp "&&" Exp            {And, left, 6}
-  | Exp "==" Exp            {Eq, left, 5}
-  | Exp "!=" Exp            {Ne, left, 5}
-  | Exp "<" Exp             {Lt, left, 4}
-  | Exp "<=" Exp            {Le, left, 4}
-  | Exp ">" Exp             {Gt, left, 4}
-  | Exp ">=" Exp            {Ge, left, 4}
-  | Exp "+" Exp             {Add, left, 3}
-  | Exp "-" Exp             {Sub, left, 3}
-  | Exp "*" Exp             {Mul, left, 2}
-  | Exp "/" Exp             {Div, left, 2}
-  | Exp "%" Exp             {Mod, left, 2}
-  | '-' Primary                 {Neg, 1}
-  | '!' Primary                 {Not, 1}
-  | "new" TyTree ( '[' Exp ']' )+ {NewArray}
-  | Primary
-  .
-
 Primary : Exp
-  = PrimaryNoArray ( '[' Exp ']' )+ {ArrayGet, 1}
-  | Primary '.' "length" {ArrayLength, 1}
-  | PrimaryNoArray
-  .
-
-PrimaryNoArray : Exp
-  = '{' Exp ++ "," '}' {ArrayLit}
-  | '(' Exp ')'
+  = '{' Exp ++ "," '}'  {ArrayLit}
   | StringLiteral {StringLit}
   | IntLiteral {IntLit, 1: Long.parseLong : Long}
   | "true" {True}
   | "false" {False}
   | Call
   | Name {Var}
+  | '(' Exp ')' 
+  .
+
+Exp {paren}
+  = Exp "||" Exp            {Or, left, 8}
+  | Exp "&&" Exp            {And, left, 7}
+  | Exp "==" Exp            {Eq, left, 6}
+  | Exp "!=" Exp            {Ne, left, 6}
+  | Exp "<" Exp             {Lt, left, 5}
+  | Exp "<=" Exp            {Le, left, 5}
+  | Exp ">" Exp             {Gt, left, 5}
+  | Exp ">=" Exp            {Ge, left, 5}
+  | Exp "+" Exp             {Add, left, 4}
+  | Exp "-" Exp             {Sub, left, 4}
+  | Exp "*" Exp             {Mul, left, 3}
+  | Exp "/" Exp             {Div, left, 3}
+  | Exp "%" Exp             {Mod, left, 3}
+  | '-' Exp                 {Neg, 2}
+  | '!' Exp                 {Not, 2}
+  | Primary '.' "length"        {ArrayLength, 1}
+  | Primary ( '[' Exp ']' )+    {ArrayGet, 1}
+  | "new" TyTree ( '[' Exp ']' )+     {NewArray}
+  | Primary
   .
 
 Call : Exp
@@ -100,7 +96,7 @@ Stm
   | Primary ( '[' Exp ']' )+ sp "=" Exp ';' {ArrayAssign}
   .
 
-Name
+Name : String
   = Identifier
   .
 
