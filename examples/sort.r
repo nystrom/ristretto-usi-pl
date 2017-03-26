@@ -23,9 +23,9 @@ void qsort(int[] a, int lo, int hi) {
   }
 
   if (lo < j)
-    qsort(lo, j);
+    qsort(a, lo, j);
   if (i < hi)
-    qsort(i, hi);
+    qsort(a, i, hi);
 }
 
 void assert(boolean b) {
