@@ -45,8 +45,8 @@ Param
 
 Primary : Exp
   = '{' Exp ++ "," '}'  {ArrayLit}
-  | StringLiteral {StringLit}
-  | IntLiteral {IntLit, 1: Long.parseLong : Long}
+  | StringLiteral Spacing {StringLit}
+  | IntLiteral Spacing {IntLit, 1: Long.parseLong : Long}
   | "true" {True}
   | "false" {False}
   | Call
@@ -97,11 +97,11 @@ Stm
   .
 
 Name : String
-  = Identifier
+  = Identifier Spacing
   .
 
 IntLiteral : String
-  = Digits
+  = Digits 
   .
 
 Digits : String
