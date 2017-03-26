@@ -92,7 +92,7 @@ Stm
   | Block
   | Call ';' {CallStm}
   | Name sp "=" Exp ';' {Assign}
-  | TyTree Name "=" Exp ';' {VarDefStm}
+  | TyTree Name sp "=" Exp ';' {VarDefStm}
   | Primary ( '[' Exp ']' )+ sp "=" Exp ';' {ArrayAssign}
   .
 
