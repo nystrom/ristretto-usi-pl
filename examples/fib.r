@@ -1,3 +1,5 @@
+extern void println(int x);
+
 int fib(int n) {
   if (n <= 1)
     return 1;

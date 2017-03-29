@@ -1,3 +1,5 @@
+extern void println(int x);
+
 // Print all the prime numbers from 2 to 10000
 void main() {
   boolean[] composite = new boolean[10000];

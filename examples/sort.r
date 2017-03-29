@@ -1,3 +1,5 @@
+extern void println(int[] s);
+
 void sort(int[] a) {
   qsort(a, 0, a.length-1);
 }

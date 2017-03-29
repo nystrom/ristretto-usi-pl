@@ -1,3 +1,5 @@
+extern void println(int x);
+
 int gcd(int a, int b) {
   while (b != 0) {
     int t = b;
