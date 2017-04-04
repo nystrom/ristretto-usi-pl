@@ -48,7 +48,7 @@ object SuboptimalRegisterAllocation {
     WORDSIZE * map.size
   }
 
-  // This is MacOS-specific
+  // This is x86-64 SysV ABI-specific
   // This first 6 arguments are passed in registers.
   // The rest on the stack.
   def argAddress(i: Int) = i match {
