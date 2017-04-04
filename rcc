@@ -1,0 +1,9 @@
+#!/bin/sh
+
+for i in "$@"
+do
+  sfile=${i%%.r}.s
+  sbt "run-main ristretto.main.Compiler --print-all --pretty $i"
+  gcc $sfile runtime/library.c runtime/runtime.c -o ${i%%.r}
+done
+

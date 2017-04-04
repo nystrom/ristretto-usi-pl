@@ -1,3 +1,6 @@
+extern void println(int[] s);
+extern int[] int2str(int n);
+
 int fib(int n) {
   if (n <= 1)
     return 1;
@@ -6,5 +9,6 @@ int fib(int n) {
 }
 
 void main() {
-  println(fib(10));
+  println(int2str(fib(10)));
+  return;
 }

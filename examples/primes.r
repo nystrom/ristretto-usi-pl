@@ -1,3 +1,7 @@
+extern void print(int[] s);
+extern void println(int[] s);
+extern int[] int2str(int n);
+
 // Print all the prime numbers from 2 to 10000
 void main() {
   boolean[] composite = new boolean[10000];
@@ -10,8 +14,12 @@ void main() {
         composite[j] = true;
         j = j + i;
       }
-      println(i);
+      if (i != 2)
+        print(" ");
+      print(int2str(i));
     }
     i = i + 1;
   }
+  println("");
+  return;
 }
