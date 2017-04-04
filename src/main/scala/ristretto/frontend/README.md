@@ -2,4 +2,4 @@
 
 Frontend abstract syntax.
 Includes typer.
-Includes IRGen, which generates IR trees.
+Includes DripGen, which generates IR trees.

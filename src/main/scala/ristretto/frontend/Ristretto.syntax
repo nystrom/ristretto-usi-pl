@@ -5,6 +5,14 @@ header {
 }
 
 body {
+  private static int countBrackets(String s) {
+    int n = 0;
+    for (int i = 0; i < s.length(); i++) {
+      if (s.charAt(i) == '[')
+        n++;
+    }
+    return n;
+  }
 }
 
 Root
@@ -25,8 +33,14 @@ ExternDef : Def
   .
 
 TyTree
-  = TyTree '[' ']'                  {ArrayTyTree, 1}
+  = BaseTyTree Brackets Spacing        {MultiArrayTyTree, 2: Ristretto.countBrackets: Int}
   | BaseTyTree
+  .
+
+// HACK: we recognize the brackets as a string, then count the number of
+// brackets to get the dimensionality of the array.
+Brackets : String
+  = ( '[' ']' )+
   .
 
 TyTreeOrVoid : TyTree
@@ -44,14 +58,14 @@ Param
   .
 
 Primary : Exp
-  = '{' Exp ++ "," '}'  {ArrayLit}
+  = "{" Exp ++ "," "}"  {ArrayLit}
   | StringLiteral Spacing {StringLit}
   | IntLiteral Spacing {IntLit, 1: Long.parseLong : Long}
   | "true" {True}
   | "false" {False}
   | Call
   | Name {Var}
-  | '(' Exp ')' 
+  | '(' Exp ')'
   .
 
 Exp {paren}
@@ -71,8 +85,8 @@ Exp {paren}
   | '-' Exp                 {Neg, 2}
   | '!' Exp                 {Not, 2}
   | Primary '.' "length"        {ArrayLength, 1}
-  | Primary ( '[' Exp ']' )+    {ArrayGet, 1}
-  | "new" TyTree ( '[' Exp ']' )+     {NewArray}
+  | Primary ( '[' Exp ']' )+    {MultiArrayGet, 1}
+  | "new" TyTree ( '[' Exp ']' )+     {NewMultiArray}
   | Primary
   .
 
@@ -92,8 +106,8 @@ Stm
   | Block
   | Call ';' {CallStm}
   | Name sp "=" Exp ';' {Assign}
-  | TyTree Name sp "=" Exp ';' {VarDefStm}
-  | Primary ( '[' Exp ']' )+ sp "=" Exp ';' {ArrayAssign}
+  | TyTree Name "=" Exp ';' {VarDefStm}
+  | Primary ( '[' Exp ']' )+ sp "=" Exp ';' {MultiArrayAssign}
   .
 
 Name : String
@@ -101,7 +115,7 @@ Name : String
   .
 
 IntLiteral : String
-  = Digits 
+  = Digits
   .
 
 Digits : String
