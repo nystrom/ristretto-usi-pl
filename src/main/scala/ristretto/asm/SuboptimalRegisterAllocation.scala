@@ -58,7 +58,7 @@ object SuboptimalRegisterAllocation {
     case 3 => CX()
     case 4 => R8()
     case 5 => R9()
-    case i => Address(WORDSIZE * (i-6), SP())
+    case i => Address(WORDSIZE * (i-6), SP()) // 6 -> 0(sp), 7 -> 8(sp), 8 -> 16(sp), ...
   }
 
   def paramAddress(i: Int) = i match {
@@ -68,7 +68,7 @@ object SuboptimalRegisterAllocation {
     case 3 => CX()
     case 4 => R8()
     case 5 => R9()
-    case i => Address(WORDSIZE * (i-6), BP())
+    case i => Address(WORDSIZE * (i-6+2), BP()) // 6 -> 16(bp), 7 -> 24(bp), 8 -> 32(bp)
   }
 
   def buildOffsetMap(insns: List[Insn]): OffsetMap = {
