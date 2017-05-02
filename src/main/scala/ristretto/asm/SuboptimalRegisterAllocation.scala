@@ -82,7 +82,8 @@ object SuboptimalRegisterAllocation {
     // Pseudo registers are at a negative offset from the base pointer
     val localMap = collectPseudos(insns).distinct.zipWithIndex collect {
       case (x, i) =>
-        (x, Address(WORDSIZE * (-i-2), BP()))
+        // 0 -> -8, 1 -> -16, 2 -> -24, ...
+        (x, Address(WORDSIZE * (-i-1), BP()))
     }
 
     localMap.toMap
