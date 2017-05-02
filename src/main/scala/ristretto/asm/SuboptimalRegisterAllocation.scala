@@ -17,6 +17,13 @@ object SuboptimalRegisterAllocation {
   def wrapPrologueAndEpilogue(maxArgs: Int, map: OffsetMap, label: String, insns: List[Insn]): List[Insn] = {
     // On MacOS, we need to align the stack on 16-byte boundaries
     val unalignedSize = frameSize(map) + maxArgs * WORDSIZE
+    // size: 0 -> 0 + 0 = 0
+    // size: 4 -> 4 + 12 = 16
+    // size: 8 -> 8 + 8 = 16
+    // size: 12 -> 12 + 4 = 16
+    // size: 16 -> 16 + 0 = 16
+    // size: 20 -> 20 + 12 = 32
+    // ...
     val size = unalignedSize + ((16 - unalignedSize) % 16)
     Label(s"_$label") ::
     Push(BP()) ::
@@ -39,7 +46,7 @@ object SuboptimalRegisterAllocation {
       Root(procs map {
         case proc @ Proc(label, insns) =>
         val map = buildOffsetMap(insns)
-        val maxArgs = collectArgs(insns).max
+        val maxArgs = (0::collectArgs(insns).map(_+1)).max
         Proc(label, wrapPrologueAndEpilogue(maxArgs, map, label, regalloc(map, insns)))
       })
   }
